@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Subha Ramesh | Mainframe Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070b14;
+    --bg2: #0d1526;
+    --bg3: #111e35;
+    --blue: #2563eb;
+    --blue-light: #3b82f6;
+    --blue-glow: #1d4ed8;
+    --cyan: #06b6d4;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --gold: #f59e0b;
+    --border: rgba(37,99,235,0.2);
+    --card: rgba(13,21,38,0.8);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .orb-1 { width: 600px; height: 600px; background: var(--blue); top: -200px; right: -200px; }
+  .orb-2 { width: 400px; height: 400px; background: var(--cyan); bottom: 100px; left: -150px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(7,11,20,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--blue-light);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--blue-light);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 60px 80px;
+  }
+  .hero-content { max-width: 780px; }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding: 6px 14px;
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 2px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-name {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name span {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-title {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+    max-width: 620px;
+    margin-bottom: 44px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .hero-desc strong { color: var(--text); }
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--blue);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.2s;
+    border: none; cursor: pointer;
+    box-shadow: 0 0 30px rgba(37,99,235,0.3);
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,99,235,0.4); }
+  .btn-secondary {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .btn-secondary:hover { border-color: var(--blue-light); color: var(--blue-light); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 64px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--blue-light);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .sec-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+  .sec-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .sec-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .sec-title span { color: var(--blue-light); }
+
+  /* ── ABOUT ── */
+  #about { padding: 100px 60px; background: var(--bg2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+  .about-text strong { color: var(--text); }
+  .about-cards { display: flex; flex-direction: column; gap: 16px; }
+  .about-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .about-card:hover { border-color: var(--blue); transform: translateX(6px); }
+  .about-card-icon {
+    width: 44px; height: 44px;
+    background: rgba(37,99,235,0.15);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .about-card-text strong { font-size: 0.9rem; color: var(--text); display: block; }
+  .about-card-text span { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* ── SKILLS ── */
+  #skills { padding: 100px 60px; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .skill-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+  .skill-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(37,99,235,0.15);
+  }
+  .skill-card-title {
+    font-size: 0.72rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 16px;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tag {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 4px;
+    padding: 4px 10px;
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { background: rgba(37,99,235,0.2); color: var(--text); border-color: var(--blue); }
+
+  /* ── EXPERIENCE ── */
+  #experience { padding: 100px 60px; background: var(--bg2); }
+  .exp-container { max-width: 900px; margin: 0 auto; }
+  .exp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .exp-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--blue), var(--cyan));
+  }
+  .exp-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .exp-company {
+    font-size: 1.3rem; font-weight: 800;
+    color: var(--text);
+  }
+  .exp-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    background: rgba(6,182,212,0.1);
+    padding: 4px 12px; border-radius: 20px;
+    border: 1px solid rgba(6,182,212,0.2);
+  }
+  .exp-role { font-size: 1rem; color: var(--blue-light); font-weight: 600; margin-bottom: 4px; }
+  .exp-domain { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 24px; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .exp-bullets li {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-left: 20px;
+    position: relative;
+  }
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    color: var(--blue-light);
+    font-size: 0.75rem;
+    top: 3px;
+  }
+  .exp-bullets li strong { color: var(--text); }
+
+  /* ── AI AGENT ── */
+  #project { padding: 100px 60px; }
+  .project-card {
+    max-width: 1000px; margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(37,99,235,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .project-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.25);
+    padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .project-title {
+    font-size: 1.8rem; font-weight: 800;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .project-title span { color: var(--blue-light); }
+  .project-tech {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .tech-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--blue-light);
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.2);
+    padding: 4px 12px; border-radius: 20px;
+  }
+  .project-desc {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+  }
+  .project-desc strong { color: var(--text); }
+  .phases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .phase-card {
+    background: rgba(37,99,235,0.06);
+    border: 1px solid rgba(37,99,235,0.15);
+    border-radius: 8px;
+    padding: 18px;
+    transition: all 0.2s;
+  }
+  .phase-card:hover { background: rgba(37,99,235,0.12); border-color: var(--blue); }
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--blue-light);
+    margin-bottom: 6px;
+  }
+  .phase-name { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .phase-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+  .achievement-banner {
+    background: linear-gradient(135deg, rgba(37,99,235,0.15), rgba(6,182,212,0.1));
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .achievement-icon { font-size: 2rem; }
+  .achievement-text strong { font-size: 1rem; color: var(--text); display: block; }
+  .achievement-text span { font-size: 0.85rem; color: var(--text-muted); }
+
+  /* ── AWARDS ── */
+  #awards { padding: 100px 60px; background: var(--bg2); }
+  .awards-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; max-width: 900px; margin: 0 auto;
+  }
+  .award-card {
+    background: var(--card);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 12px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .award-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(245,158,11,0.1); }
+  .award-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+  .award-star { font-size: 2rem; margin-bottom: 12px; }
+  .award-year {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .award-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .award-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+  .awards-quote {
+    max-width: 900px; margin: 32px auto 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--card);
+  }
+
+  /* ── EDUCATION ── */
+  #education { padding: 100px 60px; }
+  .edu-card {
+    max-width: 700px; margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    display: flex; gap: 24px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .edu-card:hover { border-color: var(--blue); }
+  .edu-icon {
+    width: 52px; height: 52px;
+    background: rgba(37,99,235,0.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; flex-shrink: 0;
+  }
+  .edu-degree { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .edu-college { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 4px; }
+  .edu-meta { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-dim); }
+  .edu-gpa {
+    margin-left: auto; text-align: right; flex-shrink: 0;
+  }
+  .edu-gpa-num { font-size: 1.8rem; font-weight: 800; color: var(--blue-light); }
+  .edu-gpa-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ── CONTACT ── */
+  #contact { padding: 100px 60px; background: var(--bg2); }
+  .contact-inner {
+    max-width: 700px; margin: 0 auto;
+    text-align: center;
+  }
+  .contact-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 48px;
+  }
+  .contact-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-bottom: 40px;
+  }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-card:hover { border-color: var(--blue); transform: translateY(-3px); }
+  .contact-card-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .contact-card-label { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .contact-card-value { font-size: 0.8rem; color: var(--text); font-weight: 600; word-break: break-all; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 28px;
+    border-top: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SR_portfolio</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#project">AI Agent</a>
+    <a href="#awards">Awards</a>
+    <a href="#certifications">Achievement</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✦ Available for New Opportunities</div>
+    <h1 class="hero-name">Subha<br><span>Ramesh</span></h1>
+    <p class="hero-title">Mainframe Developer & AI Automation Engineer</p>
+    <p class="hero-desc">
+      Building enterprise-grade Mainframe solutions at <strong>Charles Schwab</strong> through Mphasis.
+      Creator of a <strong>fully automated AI Agent</strong> that revolutionized the Mainframe development lifecycle —
+      reducing manual effort by <strong>~75–80%</strong>.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#project" class="btn-secondary">View AI Agent Project</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">3+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div>
+        <div class="stat-num">5×</div>
+        <div class="stat-label">Kudos Awards</div>
+      </div>
+      <div>
+        <div class="stat-num">75–80%</div>
+        <div class="stat-label">Effort Reduced</div>
+      </div>
+      <div>
+        <div class="stat-num">1</div>
+        <div class="stat-label">AI Agent Built</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// about me</span>
+    <h2 class="sec-title">Who I <span>Am</span></h2>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>Mainframe Developer</strong> with 3+ years of experience in the Retail Banking domain, working on enterprise applications at <strong>Charles Schwab</strong> through Mphasis.</p>
+      <p>I specialize in <strong>COBOL, JCL, DB2, VSAM, CICS, and IMS DB</strong>-based systems and have deep expertise in Offer Lifecycle Management, batch processing, and production validation.</p>
+      <p>What sets me apart is my passion for <strong>AI-Assisted Development</strong>. I built and deployed a fully automated end-to-end AI Agent using GitHub Copilot, RSE API, and Zowe CLI — transforming how Mainframe development is done.</p>
+    </div>
+    <div class="about-cards">
+      <div class="about-card">
+        <div class="about-card-icon">🏦</div>
+        <div class="about-card-text">
+          <strong>Retail Banking Domain</strong>
+          <span>Charles Schwab via Mphasis, Bengaluru</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🤖</div>
+        <div class="about-card-text">
+          <strong>AI Agent Creator</strong>
+          <span>End-to-end Mainframe Automation</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🏆</div>
+        <div class="about-card-text">
+          <strong>5× Kudos Award Winner</strong>
+          <span>Individual Monetary Award — 2024 & 2025</span>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📍</div>
+        <div class="about-card-text">
+          <strong>Bangalore, India</strong>
+          <span>Open to opportunities across India</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// technical skills</span>
+    <h2 class="sec-title">What I <span>Know</span></h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ Mainframe Core</div>
+      <div class="skill-tags">
+        <span class="skill-tag">COBOL</span><span class="skill-tag">JCL</span>
+        <span class="skill-tag">DB2</span><span class="skill-tag">VSAM</span>
+        <span class="skill-tag">CICS</span><span class="skill-tag">IMS DB/DC</span>
+        <span class="skill-tag">IBM z/OS</span><span class="skill-tag">Batch Processing</span>
+        <span class="skill-tag">IBM Utilities</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ Tools & Utilities</div>
+      <div class="skill-tags">
+        <span class="skill-tag">TSO/ISPF</span><span class="skill-tag">MVS</span>
+        <span class="skill-tag">File-Aid</span><span class="skill-tag">SPUFI</span>
+        <span class="skill-tag">Jira</span><span class="skill-tag">ChangeMan</span>
+        <span class="skill-tag">Endevor</span><span class="skill-tag">Control-M</span>
+        <span class="skill-tag">CA7</span><span class="skill-tag">Xpeditor</span>
+        <span class="skill-tag">QMF</span><span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ AI & Modernization</div>
+      <div class="skill-tags">
+        <span class="skill-tag">GitHub Copilot</span><span class="skill-tag">RSE API</span>
+        <span class="skill-tag">Zowe CLI</span><span class="skill-tag">Prompt Engineering</span>
+        <span class="skill-tag">Generative AI</span><span class="skill-tag">AI-Assisted Dev</span>
+        <span class="skill-tag">Mainframe Modernization</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ Testing & Deployment</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Unit Testing</span><span class="skill-tag">Validation</span>
+        <span class="skill-tag">CRQ Creation</span><span class="skill-tag">Pre-Deployment</span>
+        <span class="skill-tag">Post-Deployment Validation</span>
+        <span class="skill-tag">IBM Fault Analyzer</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ Methodologies</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Agile (Scrum)</span><span class="skill-tag">SDLC</span>
+        <span class="skill-tag">Sprint Planning</span>
+        <span class="skill-tag">Impact Analysis</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-title">⬡ Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">English — Professional</span>
+        <span class="skill-tag">Tamil — Native</span>
+        <span class="skill-tag">Hindi — Understand & Speak</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// work experience</span>
+    <h2 class="sec-title">Where I've <span>Worked</span></h2>
+  </div>
+  <div class="exp-container reveal">
+    <div class="exp-card">
+      <div class="exp-top">
+        <div class="exp-company">Mphasis &nbsp;|&nbsp; Client: Charles Schwab</div>
+        <div class="exp-date">May 2023 – Present</div>
+      </div>
+      <div class="exp-role">Associate Software Engineer – Mainframe Developer</div>
+      <div class="exp-domain">📍 Bengaluru, Karnataka &nbsp;·&nbsp; Retail Banking Domain</div>
+      <ul class="exp-bullets">
+        <li>Worked on enterprise <strong>Offer Lifecycle Management</strong> — Offer Creation, Processing, Retirement, Order ID Expansion, and Closed Order Reuse modules</li>
+        <li>Developed and enhanced mainframe applications using <strong>COBOL, JCL, DB2, and CICS</strong> for offer validation, eligibility, processing rules, and retirement workflows</li>
+        <li>Performed <strong>end-to-end impact analysis</strong> on COBOL programs, DB2 tables, and JCL jobs ensuring <strong>zero-defect controlled production deployments</strong></li>
+        <li>Handled <strong>pre-deployment activities</strong> including <strong>CRQ creation</strong>, deployment checklist preparation, and release team coordination</li>
+        <li>Performed <strong>unit testing and validation</strong> of COBOL programs and JCL jobs covering all business logic and edge cases</li>
+        <li>Monitored batch jobs and performed <strong>post-deployment production validation</strong> ensuring high system availability</li>
+        <li>Delivered within <strong>Agile sprint cycles</strong> across full SDLC; collaborated with onsite coordinators, BAs, and QA teams</li>
+        <li><strong>Awarded Individual Monetary Kudos 5 times (2024 & 2025)</strong> for exceptional contribution and consistent delivery</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- AI AGENT PROJECT -->
+<section id="project">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// featured project</span>
+    <h2 class="sec-title">AI Agent <span>Project</span></h2>
+  </div>
+  <div class="project-card reveal">
+    <div class="project-badge">⚡ Signature Project</div>
+    <h3 class="project-title">Fully Automated End-to-End<br><span>Mainframe Development AI Agent</span></h3>
+    <div class="project-tech">
+      <span class="tech-pill">Python Scripts</span>
+      <span class="tech-pill">GitHub Copilot</span>
+      <span class="tech-pill">RSE API</span>
+      <span class="tech-pill">Zowe CLI</span>
+      <span class="tech-pill">Retail Banking</span>
+    </div>
+    <p class="project-desc">
+      Designed and built an AI Agent that <strong>fully orchestrates the Mainframe development lifecycle</strong> —
+      replacing manual analysis, job creation, testing, and validation with a fully automated pipeline.
+      Prior to this, every phase required extensive manual effort, consuming hours of developer time.
+      This agent eliminated bottlenecks across all stages.
+    </p>
+    <div class="phases-grid">
+      <div class="phase-card">
+        <div class="phase-num">PHASE 01</div>
+        <div class="phase-name">Analysis</div>
+        <div class="phase-desc">Auto-reads and analyzes DB2 tables, job structures, and dependencies</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 02</div>
+        <div class="phase-name">Job Development</div>
+        <div class="phase-desc">Dynamically generates mainframe batch JCL jobs from analysis output</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 03</div>
+        <div class="phase-name">Backout</div>
+        <div class="phase-desc">Orchestrates automated backout procedures for safe rollback</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 04</div>
+        <div class="phase-name">Code Review</div>
+        <div class="phase-desc">Automated review checks on developed jobs for quality compliance</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 05</div>
+        <div class="phase-name">Unit Testing</div>
+        <div class="phase-desc">Executes automated test scenarios covering all business logic</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">PHASE 06</div>
+        <div class="phase-name">Validation</div>
+        <div class="phase-desc">Validates DB2 results and job execution completeness end-to-end</div>
+      </div>
+    </div>
+    <div class="achievement-banner">
+      <div class="achievement-icon">🚀</div>
+      <div class="achievement-text">
+        <strong>~75–80% Reduction in Manual Effort</strong>
+        <span>What previously required hours of manual analysis and job creation is now fully automated — improving speed, accuracy, and team efficiency across all development phases.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// recognition</span>
+    <h2 class="sec-title">Awards & <span>Kudos</span></h2>
+  </div>
+  <div class="awards-grid reveal">
+    <div class="award-card">
+      <div class="award-star">⭐</div>
+      <div class="award-year">2024 — KUDOS AWARD × 1</div>
+      <div class="award-title">Individual Monetary Kudos Award</div>
+      <div class="award-desc">Recognized for exceptional individual contribution to project delivery, quality, and consistent performance in the Retail Banking domain.</div>
+    </div>
+    <div class="award-card">
+      <div class="award-star">🏆</div>
+      <div class="award-year">2025 — KUDOS AWARD × 4</div>
+      <div class="award-title">Individual Monetary Kudos Award</div>
+      <div class="award-desc">Recognized 4 times in a single year for outstanding contribution, AI automation innovation, consistent excellence, and proactive ownership.</div>
+    </div>
+  </div>
+  <div class="awards-quote reveal">
+    "An individual monetary award to recognize exceptional contribution of individual employees" — Mphasis Recognition Program
+  </div>
+</section>
+
+<!-- CERTIFICATE OF ACHIEVEMENT -->
+<section id="certifications" style="padding: 100px 60px;">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// achievement</span>
+    <h2 class="sec-title">Certificate of <span>Achievement</span></h2>
+  </div>
+  <div style="max-width: 900px; margin: 0 auto;">
+    <div class="project-card reveal" style="border-color: rgba(16,185,129,0.3);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+        <div>
+          <div style="font-family:'Space Mono',monospace; font-size:0.7rem; color:#10b981; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:8px;">🏆 Mphasis — June 2026</div>
+          <div style="font-size:1.4rem; font-weight:800; color:var(--text);">Certificate of Achievement</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.82rem; color:var(--text-muted);">CES-02 Team</div>
+          <div style="font-size:0.82rem; color:var(--text-muted);">Gopikrishna AK</div>
+          <div style="font-size:0.78rem; color:var(--text-dim);">Offshore Delivery Partner, Mphasis</div>
+        </div>
+      </div>
+      <div style="background: rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.2); border-radius:8px; padding:20px; margin-bottom:20px;">
+        <p style="font-size:1rem; color:var(--text); line-height:1.8; font-style:italic;">
+          "Subha accelerated Offer Retirement delivery using Copilot, boosting productivity, code quality, and faster turnaround with smarter workflows. Her ownership, AI-first mindset, and problem-solving drive strengthened reliability and earned strong client appreciation."
+        </p>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <span class="tech-pill" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#10b981;">AI-First Mindset</span>
+        <span class="tech-pill" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#10b981;">GitHub Copilot</span>
+        <span class="tech-pill" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#10b981;">Offer Retirement</span>
+        <span class="tech-pill" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#10b981;">Client Appreciation</span>
+        <span class="tech-pill" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3); color:#10b981;">Productivity Boost</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// education</span>
+    <h2 class="sec-title">Academic <span>Background</span></h2>
+  </div>
+  <div class="edu-card reveal">
+    <div class="edu-icon">🎓</div>
+    <div>
+      <div class="edu-degree">Bachelor of Engineering</div>
+      <div class="edu-college">Electronics & Communication Engineering</div>
+      <div class="edu-college">Dhanalakshmi College of Engineering, Chennai, Tamil Nadu</div>
+      <div class="edu-meta">2018 – 2022</div>
+    </div>
+    <div class="edu-gpa">
+      <div class="edu-gpa-num">8.24</div>
+      <div class="edu-gpa-label">GPA / 10</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-header reveal">
+    <span class="sec-tag">// contact</span>
+    <h2 class="sec-title">Let's <span>Connect</span></h2>
+  </div>
+  <div class="contact-inner reveal">
+    <p class="contact-desc">
+      I'm actively looking for new Mainframe Developer opportunities across India.
+      Feel free to reach out for job opportunities, collaborations, or just to connect!
+    </p>
+    <div class="contact-cards">
+      <a href="tel:+918610169172" class="contact-card">
+        <div class="contact-card-icon">📞</div>
+        <div class="contact-card-label">Phone</div>
+        <div class="contact-card-value">+91-8610169172</div>
+      </a>
+      <a href="mailto:subharamesh6058@gmail.com" class="contact-card">
+        <div class="contact-card-icon">✉️</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-value">subharamesh6058@gmail.com</div>
+      </a>
+      <a href="https://www.linkedin.com/in/subha-ramesh-187407217" target="_blank" class="contact-card">
+        <div class="contact-card-icon">💼</div>
+        <div class="contact-card-label">LinkedIn</div>
+        <div class="contact-card-value">subha-ramesh-187407217</div>
+      </a>
+    </div>
+    <a href="mailto:subharamesh6058@gmail.com" class="btn-primary">Send Me an Email</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Subha Ramesh &nbsp;·&nbsp; Mainframe Developer &nbsp;·&nbsp; Bangalore, India</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 100) current = sec.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current ? '#3b82f6' : '';
+    });
+  });
+</script>
+</body>
+</html>
